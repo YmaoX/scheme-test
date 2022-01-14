@@ -81,3 +81,21 @@
       (if (= n 1)
         1
         (* n (fact (- n 1))))))) 6)
+
+;bizarre example
+(define biz
+  (let ((x 0))
+    (lambda (f)
+      (set! x (add1 x))
+      (lambda (a)
+        (if (= a x)
+          0
+          (f a))))))
+;((Y biz) 5) ;=> 0
+;Y! is the applicative-order imperative Y combinator
+(define Y!
+  (lambda (f)
+    (letrec
+      ((h (f (lambda (arg) (h arg)))))
+      h)))
+;((Y! biz) 5) ;=> doesn't terminate
